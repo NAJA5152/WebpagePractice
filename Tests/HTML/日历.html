@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>日历</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #box {
+            width: 600px;
+            margin: 50px auto;
+            border: 1px solid rgb(37, 52, 165);
+        }
+
+        #box header {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            color: black;
+            background-color: rgb(149, 159, 230);
+            padding: 0 10px;
+        }
+
+        #box header span {
+            cursor: pointer;
+        }
+
+        #box header span.last {
+            float: left;
+        }
+
+        #box header span.next {
+            float: right;
+        }
+
+        #box header div {
+            font-size: 28px;
+        }
+
+        #box table {
+            border-right: 1px solid rgb(37, 52, 165);
+            border-bottom: 1px solid rgb(37, 52, 165);
+        }
+
+        #box table th,
+        #box table td {
+            border-left: 1px solid rgb(37, 52, 165);
+            border-top: 1px solid rgb(37, 52, 165);
+            text-align: center;
+            line-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <!-- <header>
+            <span class="last">上个月</span>
+            <span class="next">下个月</span>
+            <div>2022年11月11日</div>
+        </header>
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="red">周日</th>
+                    <th>周一</th>
+                    <th>周二</th>
+                    <th>周三</th>
+                    <th>周四</th>
+                    <th>周五</th>
+                    <th>周六</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table> -->
+    </div>
+</body>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $(function () {
+        var defaultDate = new Date(2022, 11);
+        var box = $("#box");
+        var yearMonthTitleDiv = null;
+        var lastMonthSpan = null;
+        var nextMonthSpan = null;
+        var tbody = null;
+        var allTd = [];
+
+        create();
+        showDate();
+
+        function showDate() {
+            var year = defaultDate.getFullYear();
+            var month = defaultDate.getMonth() + 1;
+            yearMonthTitleDiv.text(year + "年" + month + "月");
+            var week = new Date(year, month - 1, 1).getDay();//判断该月1号是周几
+            var days = new Date(year, month, 0).getDate();//当前月的上一个月最后一天的日期，判断一个月有多少天
+            var n = 1;
+            for (var i = 0; i < allTd.length; i++) {
+                allTd[i].empty();
+                if (i >= week && n <= days) {
+                    allTd[i].text(n);
+                    n++;
+                }
+            }
+            if (allTd[28].text === '') {
+                allTd[28].parent().hide();
+                allTd[35].parent().hide();
+            } else if (allTd[35].text === '') {
+                allTd[35].parent().hide();
+            } else {
+                allTd[35].parent().show();
+                allTd[28].parent().show();
+            }
+        }
+
+        $('#box span').click(function () {
+            var year = defaultDate.getFullYear();
+            var month = defaultDate.getMonth();
+            if ($(this).index() == 0) {
+                month--;
+            } else {
+                month++;
+            }
+            defaultDate = new Date(year, month);
+            showDate();
+        })
+
+        function create() {
+            var header = $('\
+                <header header >\
+                <span class="last">上个月</span>\
+                <span class="next">下个月</span>\
+                <div>2022年11月11日</div> \
+                </header >\
+                ');
+            box.append(header);
+
+            yearMonthTitleDiv = header.find('div');
+            lastMonthSpan = header.find('.last');
+            nextMonthSpan = header.find('next');
+
+            var table = $('\
+            <table width="100%" cellspacing="0" cellpadding="0">\
+                <thead>\
+                    <tr>\
+                        <th class="red">周日</th>\
+                        <th>周一</th>\
+                        <th>周二</th>\
+                        <th>周三</th>\
+                        <th>周四</th>\
+                        <th>周五</th>\
+                        <th>周六</th>\
+                    </tr>\
+                </thead>\
+                 <tbody>\
+                 </tbody>\
+            </table>\
+            ');
+            box.append(table);
+            tbody = table.find('tbody');
+            for (var i = 0; i < 6; i++) {
+                var tr = $("<tr></tr>");
+                for (var k = 0; k < 7; k++) {
+                    var td = $("<td></td>");
+                    tr.append(td);
+                    allTd.push(td);
+                }
+                tbody.append(tr);
+            }
+
+        }
+
+    })
+
+</script>
+
+</html>

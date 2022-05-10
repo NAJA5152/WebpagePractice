@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜功能</title>
+    <style>
+        #box {
+            margin: 0 auto;
+            width: 1004px;
+        }
+
+        #imgDiv {
+            float: left;
+            width: 400px;
+            height: 200px;
+            position: relative;
+        }
+
+        #myImg {
+            width: 400px;
+            height: 200px;
+        }
+
+        #moveCube {
+            width: 150px;
+            height: 75px;
+            background-color: aquamarine;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.4;
+        }
+
+        #showImg {
+            width: 600px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        #imgRs {
+
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="imgDiv">
+            <img src="img/bg2.png" id="myImg">
+            <div id="moveCube"></div>
+        </div>
+        <div id="showImg">
+            <img src="img/bg2.png" id="imgRs">
+        </div>
+    </div>
+</body>
+<script>
+
+    let moveCube = document.getElementById("moveCube");
+    let myImg = document.getElementById("myImg");
+    let imgRs = document.getElementById("imgRs");
+    let imgDiv = document.getElementById("imgDiv");
+    let showImg = document.getElementById("showImg");
+
+    //实现cube在imgDiv图片范围内跟随鼠标移动
+    imgDiv.onmousemove = function (e) {
+        var x = e.pageX - imgDiv.offsetLeft - moveCube.offsetWidth / 2;
+        var y = e.pageY - imgDiv.offsetTop - moveCube.offsetHeight / 2;
+        if (x < 0) {
+            x = 0;
+        } else if (x > imgDiv.offsetWidth - moveCube.offsetWidth) {
+            x = imgDiv.offsetWidth - moveCube.offsetWidth;
+        }
+        if (y < 0) {
+            y = 0
+        } else if (y < imgDiv.offsetHeight - moveCube.offsetHeight) {
+            y = imgDiv.offsetHeight - moveCube.offsetHeight;
+        }
+        moveCube.style.left = x + "px";
+        moveCube.style.top = y + "px";
+
+        imgRs.style.left = -x * (showImg.offsetWidth / imgDiv.offsetWidth) + "px";
+        imgRs.style.left = -y * (showImg.offsetHeight / imgDiv.offsetHeight) + "px";
+
+    }
+</script>
+
+</html>

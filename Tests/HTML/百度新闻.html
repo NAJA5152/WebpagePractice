@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>百度新闻</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            position: absolute;
+            left: 60%;
+            margin-left: 552px;
+            bottom: 10px;
+            /* background-color: red; */
+        }
+
+        li {
+            width: 48px;
+            height: 48px;
+            border-radius: 3px;
+            background-image: url(img/qrcode.png);
+            margin-bottom: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .li1 {
+            height: 92px;
+        }
+
+        .li2 {
+            background-position-y: -10px;
+        }
+
+        .li3 {
+            background-position-y: -20px;
+        }
+
+        .li4 {
+            background-position-y: -30px;
+        }
+
+        .li:last-child {
+            margin-bottom: 0;
+        }
+
+        a {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+            line-height: 48px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            background-color: #184481;
+            text-align: center;
+
+            transform-origin: -50% 50%;
+            transform: rotateZ(90deg);
+            transition: transform 0.3s;
+        }
+
+        li:hover a {
+            transform: rotateZ(0deg);
+
+        }
+
+        .li1 a {
+            height: 92px;
+            line-height: 92px;
+            transform-origin: -100% 50%;
+        }
+
+        #divBT {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #000ff0;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 80px;
+
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+
+            display: none;
+        }
+
+        .text:nth-child(even) {
+            height: 100px;
+            background-color: aqua;
+        }
+
+        .text:nth-child(odd) {
+            height: 65px;
+            background-color: rgb(230, 64, 128);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 电梯雪碧图 -->
+    <ul>
+        <li class="li1">
+            <a href="#">举报</a>
+        </li>
+        <li class="li2">
+            <a href="#">二维码</a>
+        </li>
+        <li class="li3">
+            <a href="#">收藏</a>
+        </li>
+        <li class="li4">
+            <a href="#">删除</a>
+        </li>
+        <li class="li5">
+            <a href="#">搜索</a>
+        </li>
+    </ul>
+    <!-- 返回顶部按钮 -->
+    <div id="divBT">返回顶部</div>
+    <div class="text">1</div>
+    <div class="text">2</div>
+    <div class="text">3</div>
+    <div class="text">4</div>
+    <div class="text">5</div>
+    <div class="text">6</div>
+    <div class="text">7</div>
+    <div class="text">8</div>
+    <div class="text">9</div>
+    <div class="text">10</div>
+    <div class="text">11</div>
+    <div class="text">12</div>
+    <div class="text">13</div>
+</body>
+<script>
+    let mydiv = document.getElementById("divBT");
+
+    mydiv.onclick = function () {
+        //瞬间到顶
+        // document.documentElement.scrollTop = 0;
+
+
+        var y = document.documentElement.scrollTop;
+        //匀速到顶
+        // var mytimer = setInterval(function () {
+        //     y -= 10;
+        //     document.documentElement.scrollTop = y;
+        //     if (y <= 0) {
+        //         clearInterval(mytimer);
+        //     }
+        // }, 10)
+
+        //减速速（先快后慢）到顶
+        var mytimer = setInterval(function () {
+            y -= (document.documentElement.scrollTop/15);
+            document.documentElement.scrollTop = y;
+            if (y <= 0) {
+                clearInterval(mytimer);
+            }
+        }, 10)
+
+
+    }
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 200) {
+            mydiv.style.display = "block";
+        } else {
+            mydiv.style.display = "none";
+        }
+    }
+</script>
+
+</html>
