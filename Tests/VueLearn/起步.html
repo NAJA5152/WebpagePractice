@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>起步</title>
+</head>
+
+<body>
+    <div id="hello-vue" class="demo">{{message}}</div>
+</body>
+<script>
+    const helloVueApp = {
+        data() {
+            return {
+                message: "Hello Vue"
+            }
+        },
+    }
+
+    Vue.createApp(helloVueApp).mount('#hello-vue');
+</script>
+
+</html>
