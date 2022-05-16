@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>条件语句</title>
+</head>
+
+<body>
+    <!--v-if指令-->
+    <div id="vifEx">
+        <div>
+            <label for="r1">点击切换下面p标签中内容显示与否</label><input type="checkbox" id="r1" v-model="singleSeen">
+            <p v-if="singleSeen">
+                对单个元素使用v-if
+            </p>
+        </div>
+        <br>
+        <div>
+            <label for="r2">点击切换下面template中内容显示与否</label><input type="checkbox" id="r2" v-model="templateSeen">
+            <template v-if="templateSeen">
+                <h1>对template使用v-if></h1>
+                <p>temlate中内容都可以被v-if控制</p>
+            </template>
+        </div>
+        <br>
+        <!--v-show指令也可用于根据条件是否展示元素-->
+        <div v-show="canShow">
+            使用v-show控制展示
+        </div>
+    </div>
+    <br>
+
+    <!--v-if&else&else-if指令-->
+    <div id="vifelseEx">
+        <input v-model="type" placeholder="输入type">
+        <div v-if="type==='A'">
+            type is A
+        </div>
+        <div v-else-if="type==='B'">
+            type is B
+        </div>
+        <div v-else="type==='A'">
+            type is not A or B
+        </div>
+    </div>
+</body>
+<script>
+    //------v-if指令------
+    const vifApp = {
+        data() {
+            return {
+                singleSeen: true,
+                templateSeen: true,
+                canShow: true
+            }
+        },
+    }
+    Vue.createApp(vifApp).mount('#vifEx');
+
+    //------v-if&else&else-if指令------
+    const vifelseApp = {
+        data() {
+            return {
+                type: "A"
+            }
+        },
+    }
+    Vue.createApp(vifelseApp).mount('#vifelseEx');
+
+</script>
+
+</html>
