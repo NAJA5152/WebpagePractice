@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>模板语法</title>
+    <style>
+        .class1 {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <!--v-html指令-->
+    <div id="vhtmlEx">
+        <div>------模板语法1------v-html指令</div>
+        <!--可以使用v-once指令只执行一次性地插值，当数据改变时，插值处的内容不会更新-->
+        <p>使用双大括号的文本插值: {{ rawHtml }}</p>
+        <p>使用v-html指令情况:<span v-html="rawHtml"></span></p>
+    </div>
+
+    <!--v-bind指令-->
+    <div id="vbindEx">
+        <br><br>
+        <div>------模板语法2------v-bind指令</div>
+        <!--v-model在表单控件或者组件上创建双向绑定-->
+        <label for="r1">修改颜色</label><input type="checkbox" id="r1" v-model="use">
+        <br><br>
+        <div v-bind:class="{'class1':use}">v-bind:class指令</div>
+
+        <!--vue还支持js表达式-->
+        {{5+5}}<br>
+        {{ ok ? 'YES' : 'NO' }}<br>
+        {{ message.split('').reverse().join('') }}
+        <div v-bind:id="'list-' + id">上一行可以实现反转字符顺序</div>
+
+        <!--v-bind绑定属性与脚本中表达式的例子-->
+        <!--v-bind缩写为:-->
+        <div><a :href="url">百度</a></div>
+    </div>
+
+    <!--v-model指令-->
+    <div id="vmodelEx">
+        <br><br>
+        <div>------模板语法3------v-model指令</div>
+        <p>{{message}}</p>
+        <input v-model="message">
+    </div>
+
+    <!--v-on指令-->
+    <!--v-on:[event]="xxx"为动态事件 -->
+    <div id="vonEx">
+        <br><br>
+        <div>------模板语法4------v-on指令</div>
+        <p>{{message}}</p>
+        <!--v-on缩写为@click(或者@event)-->
+        <button @click="reverseMethod">反转字符串</button>
+    </div>
+</body>
+<script>
+    //------模板语法1------v-html指令可以输出运行代码
+    const renderHtmlApp = {
+        data() {
+            return {
+                rawHtml: '<span style="color:red">能显示红色！</span>'
+            }
+        },
+    }
+
+    Vue.createApp(renderHtmlApp).mount('#vhtmlEx');
+
+    //------模板语法2------v-bind指令用于动态地绑定一个或多个 attribute属性，或一个组件 prop 到表达式。
+    const vbindApp = {
+        data() {
+            return {
+                use: false, //初始默认false，即空style状态;点击单选框后改变use的bool值
+                ok: true,
+                message: "I can Fly!",
+                url: "http://www.baidu.com"
+            }
+        },
+    }
+    Vue.createApp(vbindApp).mount('#vbindEx');
+
+    //------模板语法3------v-model指令用来在 input、select、textarea、checkbox、radio 等表单控件元素上创建双向数据绑定，
+    //根据表单上的值，自动更新绑定的元素的值。
+    const vmodelApp = {
+        data() {
+            return {
+                message: "上方文字显示此处输入内容"
+            }
+        },
+    }
+    Vue.createApp(vmodelApp).mount('#vmodelEx');
+
+    //------模板语法4------v-on指令可以绑定事件监听器。事件类型由参数指定。表达式可以是一个方法的名字或一个内联语句，如果没有修饰符也可以省略。
+    const vonApp={
+        data() {
+            return {
+                message:"反转了"
+            }
+        },
+        methods: {
+            reverseMethod(){
+                this.message=this.message.split('').reverse().join('')
+            }
+        },
+    }
+    Vue.createApp(vonApp).mount('#vonEx');
+
+</script>
+
+</html>

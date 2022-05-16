@@ -9,8 +9,10 @@
 
 <body>
     <div id="hello-vue" class="demo">{{message}}</div>
+    <div id="num" class="numTest"></div>
 </body>
 <script>
+    //练习1输出文字
     const helloVueApp = {
         data() {
             return {
@@ -20,6 +22,27 @@
     }
 
     Vue.createApp(helloVueApp).mount('#hello-vue');
+    
+    //练习2方法
+    const num = Vue.createApp({
+        data() {
+            return {
+                count: 4
+            }
+        },
+        methods: {
+            increment() {
+                this.count++
+            }
+        },
+    })
+    const numMethod = num.mount('#num');
+
+    document.write(numMethod.count);//4
+    document.write("<br>");
+    numMethod.increment();
+    document.write(numMethod.count);//5
+
 </script>
 
 </html>
