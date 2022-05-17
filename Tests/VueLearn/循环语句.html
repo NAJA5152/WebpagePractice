@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>循环语句</title>
+</head>
+
+<body>
+    <div id="vforEx1">
+        <div>----v-for实例1：绑定数据到数组渲染列表----</div>
+        <ol>
+            <li v-for="(site,index) in sites">
+                {{index}}-{{site.text}}
+            </li>
+        </ol>
+    </div>
+    <div id="vforEx2">
+        <div>----v-for实例2：通过一个对象的属性来迭代数据----</div>
+        <ul>
+            <li v-for="(value,key,index) in object ">
+                {{index}}.{{key}}:{{value}}
+            </li>
+        </ul>
+    </div>
+    <div id="vforEx3">
+        <div>----v-for实例3：v-for在template元素中的使用----</div>
+        <ul>
+            <template v-for="site in sites">
+                <li> {{site.text}} </li>
+                <li>----------</li>
+            </template>
+        </ul>
+    </div>
+    <div id="vforEx4">
+        <div>----v-for实例4：循环迭代整数，并对元素进行过滤排序----</div>
+        <ul>
+            <li v-for="n in evenNumbers">
+                {{n}}
+            </li>
+        </ul>
+    </div>
+    <div id="vforEx5">
+        <div>----v-for实例5：v-for/v-if 联合使用</div>
+        <select v-on:change="changeVal($event)" v-model="selOption">
+            <template v-for="(site,index) in sites" v-bind:site="site" v-bind:index="index" v-bind:key="site.id">
+                <!-- 索引为 1 的设为默认值，索引值从0 开始-->
+                <option v-if="index==1" v-bind:value="site.name" selected>{{site.name}}</option>
+                <option v-else:value="site.name">{{site.name}}</option>
+            </template>
+        </select>
+        <div>选中了{{selOption}}</div>
+    </div>
+</body>
+<script>
+    //----v-for实例1：绑定数据到数组渲染列表----
+    const vforEx1App = {
+        data() {
+            return {
+                sites: [
+                    { text: '内容一号' },
+                    { text: '内容二号' },
+                    { text: '内容三号' },
+                ]
+            }
+        },
+    }
+    Vue.createApp(vforEx1App).mount('#vforEx1');
+
+    //----v-for实例2：通过一个对象的属性来迭代数据----
+    const vforEx2App = {
+        data() {
+            return {
+                object: {
+                    name: "百度",
+                    url: "http://www.baidu.com",
+                    sologan: "百度一下，你就知道"
+                }
+            }
+        },
+    }
+    Vue.createApp(vforEx2App).mount('#vforEx2');
+
+    //----v-for实例3：v-for在template元素中的使用----
+    const vforEx3App = {
+        data() {
+            return {
+                sites: [
+                    { text: '内容一号' },
+                    { text: '内容二号' },
+                    { text: '内容三号' },
+                ]
+            }
+        },
+    }
+    Vue.createApp(vforEx3App).mount('#vforEx3');
+
+    //----v-for实例4：循环迭代整数，并对元素进行过滤排序----
+    const vforEx4App = {
+        data() {
+            return {
+                numbers: [1, 2, 3, 4, 5, 6]
+            }
+        },
+        computed: {
+            //找出偶数
+            evenNumbers() {
+                return this.numbers.filter(number => number % 2 === 0)
+            }
+        }
+    }
+    Vue.createApp(vforEx4App).mount('#vforEx4');
+
+    //----v-for实例5：v-for/v-if 联合使用
+    const vforEx5App = {
+        data() {
+            return {
+                selOption: "Plan B",
+                sites: [
+                    { id: 1, name: "Plan A" },
+                    { id: 2, name: "Plan B" },
+                    { id: 3, name: "Plan C" },
+                ]
+            }
+        },
+        methods: {
+            changeVal: function (event) {
+                this.selOption = event.target.value;
+                alert("选中了" + this.selOption);
+            }
+        }
+    }
+    Vue.createApp(vforEx5App).mount('#vforEx5');
+
+</script>
+
+</html>
