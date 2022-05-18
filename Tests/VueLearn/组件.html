@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="componentEx1">
+        <div>----全局组件样例----</div>
+        <button-counter></button-counter>
+    </div>
+    <br>
+    <div id="componentEx2">
+        <div>----局部组件样例----</div>
+        <text-a></text-a>
+        <text-b></text-b>
+    </div>
+    <br>
+    <div id="componentEx3">
+        <div>----Prop样例----</div>
+        <site-name title="标题1"></site-name>
+        <site-name title="标题2"></site-name>
+        <site-name title="标题3"></site-name>
+    </div>
+    <br>
+    <div id="componentEx4">
+        <div>----动态Prop样例----</div>
+        <site-info v-for="site in sites" v-bind:id="site.id" v-bind:title="site.title">
+        </site-info>
+    </div>
+</body>
+<script>
+    //----全局组件样例----
+    //全局注册的组件可以在随后创建的 app 实例模板中使用，也包括根实例组件树中的所有子组件的模板中。
+    // 创建一个Vue 应用
+    const componentEx1App = Vue.createApp({})
+
+    // 定义一个名为 button-counter 的新全局组件
+    componentEx1App.component('button-counter', {
+        data() {
+            return {
+                count: 0
+            }
+        },
+        template: `
+    <button v-on:click="count++">
+      点了 {{ count }} 次！
+    </button>`
+    })
+    componentEx1App.mount('#componentEx1');
+
+    //----局部组件样例----
+    //在实例选项中注册局部组件，这样组件只能在这个实例中使用
+    //对于 components 对象中的每个属性来说，其属性名就是自定义元素的名字（component-a、component-b），其属性值就是这个组件的选项对象（ComponentA、ComponentB）
+    var textA = {
+        template: `<h1>自定义局部组件A</h1>`
+    }
+    var textB = {
+        template: `<h2>自定义局部组件B</h2>`
+    }
+    const componentEx2App = Vue.createApp({
+        components: {
+            //-后字母要小写
+            'text-a': textA,
+            'text-b': textB
+        }
+    })
+    componentEx2App.mount('#componentEx2');
+
+    //----Prop样例----
+    //prop 是子组件用来接受父组件传递过来的数据的一个自定义属性。
+    //父组件的数据需要通过 props 把数据传给子组件，子组件需要显式地用 props 选项声明 "prop"：
+    const componentEx3App = Vue.createApp({})
+
+    componentEx3App.component('site-name', {
+        props: ['title'],
+        template: `<h4>{{title}}</h4>`
+    })
+    componentEx3App.mount('#componentEx3');
+
+    //----动态Prop样例----
+    //类似于用 v-bind 绑定 HTML 特性到一个表达式，也可以用 v-bind 动态绑定 props 的值到父组件的数据中。每当父组件的数据变化时，该变化也会传导给子组件
+    const Site = {
+        data() {
+            return {
+                sites: [
+                    { id: 1, title: "动态标题1" },
+                    { id: 2, title: "动态标题2" },
+                    { id: 3, title: "动态标题3" }
+                ]
+            }
+        },
+    }
+
+    const componentEx4App = Vue.createApp(Site)
+
+    componentEx4App.component('site-info', {
+        props: ['id', 'title'],
+        template: `<h4>{{id}}-{{title}}</h4>`
+    })
+
+    componentEx4App.mount('#componentEx4');
+</script>
+
+</html>
