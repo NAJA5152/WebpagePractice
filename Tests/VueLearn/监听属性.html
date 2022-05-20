@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>监听属性</title>
+</head>
+
+<body>
+    <div id="watchEx1">
+        <div>----监听属性实例1----</div>
+        <p>计数器：{{counter}}</p>
+        <button @click="counter++">点击</button>
+    </div>
+    <br>
+    <div id="watchEx2">
+        <div>----监听属性实例2:进行千米与米之间的换算----</div>
+        千米：<input type="text" v-model="km">
+        米：<input type="text" v-model="m">
+    </div>
+    <p id="info">修改输入值之前为: ,修改后为: </p>
+</body>
+<script>
+    //----监听属性实例1----
+    const watchEx1App = {
+        data() {
+            return {
+                counter: 1
+            }
+        },
+    }
+    watchEx1VM = Vue.createApp(watchEx1App).mount('#watchEx1');
+    watchEx1VM.$watch('counter', function (nextNum, lastNum) {
+        alert('计数器数值变化:' + lastNum + '变为' + nextNum);
+    });
+
+    //----监听属性实例2:进行千米与米之间的换算----
+    const watchEx2App = {
+        data() {
+            return {
+                km: 0,
+                m: 0
+            }
+        },
+        watch: {
+            km(val) {
+                this.km = val;
+                this.m = this.km * 1000;
+            },
+            m(val) {
+                this.km = val / 1000;
+                this.m = val;
+            }
+        }
+    }
+    watchEx2VM = Vue.createApp(watchEx2App).mount('#watchEx2');
+    watchEx2VM.$watch('km', function (newVal, oldVal) {
+        document.getElementById("info").innerHTML = "修改输入值之前为:" + oldVal + ",修改后为:" + newVal;
+    })
+</script>
+
+</html>

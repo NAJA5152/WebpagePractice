@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="computedEx1">
+        <div>----computed计算属性实例1----</div>
+    </div>
+</body>
+<script>
+    //computed 属性默认只有 getter ，不过在需要时你也可以提供一个 setter 
+    const computedEx1App = {
+        data() {
+            return {
+                name: 'VueNpm',
+                url: 'https://unpkg.com/vue@next'
+            }
+        },
+        computed: {
+            site: {
+                get() {
+                    return this.name + " " + this.url;
+                },
+                set(newValue) {
+                    var names = newValue.split('');
+                    this.name = names[0];
+                    this.url = names[names.length - 1]
+                },
+            }
+        }
+    }
+    VueComputed = Vue.createApp(computedEx1App).mount('#computedEx1');
+    document.write('name: ' + VueComputed.name);
+    document.write('<br>');
+    document.write('url: ' + VueComputed.url);
+    document.write('<br>------ 更新数据 ------<br>');
+    // 调用 setter， name 和 url 也会被对应更新
+    VueComputed.site = 'aa www.baidu.com';
+    document.write('name: ' + VueComputed.name);
+    document.write('<br>');
+    document.write('url: ' + VueComputed.url);
+</script>
+
+</html>
