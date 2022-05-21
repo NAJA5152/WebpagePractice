@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>Document</title>
+    <style>
+        .static {
+            width: 100px;
+            height: 100px;
+        }
+
+        .active {
+            background: green;
+        }
+
+        .text-danger {
+            background: red;
+        }
+
+        .classA {
+            color: rgb(187, 242, 97);
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="styleEx1">
+        <div>----class属性绑定----</div>
+        <div class="static" v-bind:class="classObject"></div>
+    </div>
+    <br>
+    <div id="styleEx2">
+        <div>----数组语法可以把一个数组传给 v-bind:class ----</div>
+        <div class="static" v-bind:class="[activeClass , errorClass]"></div>
+        <div>----还可以使用三元表达式来切换列表中的 class----</div>
+        <div class="static" v-bind:class="[isActive ? activeClass : '' , errorClass]"></div>
+    </div>
+    <br>
+    <div id="styleEx3">
+        <div>----Vue.js style(内联样式)----</div>
+        <div>可以在 v-bind:style 直接设置样式，简写为 :style</div>
+        <div :style="{ color: activeColor , fontSize: fontSize + 'px' }">test1</div>
+        <div>可以直接绑定到一个样式对象，让模板更清晰</div>
+        <div :style="styleObject">test2</div>
+        <div>v-bind:style 可以使用数组将多个样式对象应用到一个元素上</div>
+        <div :style="[baseStyle, overrideStyle]">test3</div>
+        <div>可以为 style 绑定中的 property 提供一个包含多个值的数组，常用于提供多个带前缀的值</div>
+        <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">这样写只会渲染数组中最后一个被浏览器支持的值。在本例中，如果浏览器支持不带浏览器前缀的
+            flexbox，那么就只会渲染 display: flex。</div>
+    </div>
+    <br>
+    <div id="styleEx4">
+        <div>----组件上使用 class 属性----</div>
+        <div>当你在带有单个根元素的自定义组件上使用 class 属性时，这些 class 将被添加到该元素中。此元素上的现有 class 将不会被覆盖。</div>
+        <cptest1 class="classC classD"></cptest1>
+        <div>如果你的组件有多个根元素，你需要定义哪些部分将接收这个类。可以使用 $attrs 组件属性执行此操作</div>
+        <cptest2 class="classA"></cptest2>
+    </div>
+    <br>
+    <br>
+</body>
+<script>
+    //----class属性绑定----
+    const styleEx1App = {
+        data() {
+            return {
+                isActive: true,
+                error: null
+            }
+        },
+        //绑定一个返回对象的计算属性
+        computed: {
+            classObject() {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    }
+    Vue.createApp(styleEx1App).mount('#styleEx1');
+
+    //----数组语法可以把一个数组传给 v-bind:class ----
+    const styleEx2App = {
+        data() {
+            return {
+                isActive: true,
+                activeClass: 'active',
+                errorClass: 'text-danger'
+            }
+        },
+    }
+    Vue.createApp(styleEx2App).mount('#styleEx2');
+
+    //----Vue.js style(内联样式)----
+    const styleEx3App = {
+        data() {
+            return {
+                activeColor: 'red',
+                fontSize: 25,
+                styleObject: {
+                    color: 'blue',
+                    fontSize: '30px'
+                },
+                baseStyle: {
+                    color: 'orange',
+                    fontSize: '30px'
+                },
+                overrideStyle: {
+                    'font-weight': 'bold'
+                }
+            }
+        },
+    }
+    Vue.createApp(styleEx3App).mount('#styleEx3');
+
+    //----组件上使用 class 属性----
+    const styleEx4App = Vue.createApp({})
+    styleEx4App.component('cptest1', {
+        template: `<h1 class="classA classB">测试测试</h1>`
+    })
+    styleEx4App.component('cptest2',{
+        //只有p标签会使用classA样式
+        template:`<p :class="$attrs.class">我显示classA的样式</p>
+        <span>我没有 $attrs 组件属性，无法显示classA的样式</span>`
+    })
+    styleEx4App.mount('#styleEx4');
+</script>
+
+</html>
