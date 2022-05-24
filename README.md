@@ -1,5 +1,5 @@
 # WebpagePractice
- web小练习
+ 前端相关练习
  
  1.html+css+js
  
