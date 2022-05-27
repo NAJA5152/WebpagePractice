@@ -3,4 +3,4 @@
  
  1.html+css+js
  
- 2.vue
+ 2.vue ： 使用html+选项式做Vue的基础练习
